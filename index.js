@@ -51,6 +51,9 @@ const library = {
     return memoryjs.readMemory(handle, address, dataType.toLowerCase(), callback);
   },
 
+  readByte: memoryjs.readByte,
+  readBigInt: memoryjs.readBigInt,
+
   readBuffer(handle, address, size, callback) {
     if (arguments.length === 3) {
       return memoryjs.readBuffer(handle, address, size);
