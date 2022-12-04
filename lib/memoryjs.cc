@@ -299,6 +299,39 @@ Napi::Value findModule(const Napi::CallbackInfo& args) {
   }
 }
 
+Napi::Value readByte(const Napi::CallbackInfo& args) {
+  Napi::Env env = args.Env();
+
+  HANDLE handle = (HANDLE)args[0].As<Napi::Number>().Int64Value();
+  DWORD64 address = args[1].As<Napi::Number>().Int64Value();
+
+  unsigned char result = Memory.readMemory<unsigned char>(handle, address);
+  return Napi::Value::From(env, result);
+}
+
+Napi::Value readBigInt(const Napi::CallbackInfo& args) {
+  Napi::Env env = args.Env();
+
+  HANDLE handle = (HANDLE)args[0].As<Napi::Number>().Int64Value();
+  DWORD64 address = args[1].As<Napi::Number>().Int64Value();
+
+  int64_t result = Memory.readMemory<int64_t>(handle, address);
+
+  return Napi::BigInt::New(env, result);
+}
+
+Napi::Value readUINT64(const Napi::CallbackInfo& args) {
+  Napi::Env env = args.Env();
+
+  HANDLE handle = (HANDLE)args[0].As<Napi::Number>().Int64Value();
+  DWORD64 address = args[1].As<Napi::Number>().Int64Value();
+
+  int64_t result = Memory.readMemory<int64_t>(handle, address);
+
+  return Napi::Value::From(env, result);
+}
+
+
 Napi::Value readMemory(const Napi::CallbackInfo& args) {
   Napi::Env env = args.Env();
 
@@ -473,7 +506,7 @@ Napi::Value readBuffer(const Napi::CallbackInfo& args) {
 
   Napi::Buffer<char> buffer = Napi::Buffer<char>::Copy(env, data, size);
   free(data);
-  
+
   if (args.Length() == 4) {
     Napi::Function callback = args[3].As<Napi::Function>();
     callback.Call(env.Global(), { Napi::String::New(env, ""), buffer });
@@ -1442,6 +1475,9 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "getProcesses"), Napi::Function::New(env, getProcesses));
   exports.Set(Napi::String::New(env, "getModules"), Napi::Function::New(env, getModules));
   exports.Set(Napi::String::New(env, "findModule"), Napi::Function::New(env, findModule));
+  exports.Set(Napi::String::New(env, "readBigInt"), Napi::Function::New(env, readBigInt));
+  exports.Set(Napi::String::New(env, "readUINT64"), Napi::Function::New(env, readUINT64));
+  exports.Set(Napi::String::New(env, "readByte"), Napi::Function::New(env, readByte));
   exports.Set(Napi::String::New(env, "readMemory"), Napi::Function::New(env, readMemory));
   exports.Set(Napi::String::New(env, "readBuffer"), Napi::Function::New(env, readBuffer));
   exports.Set(Napi::String::New(env, "writeMemory"), Napi::Function::New(env, writeMemory));
