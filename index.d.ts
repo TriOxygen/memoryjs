@@ -3,7 +3,7 @@ declare module 'memoryjs' {
 
   export interface Process {
     handle: Handle;
-    modBaseAddr: number;
+    modBaseAddr: bigint;
     szExeFile: string;
     th32ProcessID: number;
   }
@@ -11,14 +11,14 @@ declare module 'memoryjs' {
   export interface Module {
     handle: Handle;
     th32ProcessID: number;
-    modBaseAddr: number;
+    modBaseAddr: bigint;
     modBaseSize: number;
     szModule: string;
     szExeFile: string;
   }
 
   export interface Region {
-    BaseAddress: number;
+    BaseAddress: bigint;
     AllocationBase: number;
     AllocationProtect: number;
     RegionSize: number;
@@ -80,7 +80,7 @@ declare module 'memoryjs' {
     writeBuffer(handle: Handle, structAddress: number, buffer: Buffer): void;
     readMemory<T>(handle: Handle, address: number, type: string): T;
     readUINT64(handle: Handle, address: number): number;
-    readBigInt(handle: Handle, address: number): bigint;
+    readBigInt(handle: Handle, address: number): number;
     readByte(handle: Handle, address: number): number;
     writeMemory(handle: Handle, address: number, value: unknown, type: string): void;
     getModules(th32ProcessID: number): Module[];
