@@ -53,6 +53,7 @@ const library = {
 
   readByte: memoryjs.readByte,
   readBigInt: memoryjs.readBigInt,
+  readUINT64: memoryjs.readUINT64,
 
   readBuffer(handle, address, size, callback) {
     if (arguments.length === 3) {
