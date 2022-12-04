@@ -80,7 +80,7 @@ declare module 'memoryjs' {
     writeBuffer(handle: Handle, structAddress: number, buffer: Buffer): void;
     readMemory<T>(handle: Handle, address: number, type: string): T;
     readUINT64(handle: Handle, address: number): number;
-    readBigInt(handle: Handle, address: number): BigInt;
+    readBigInt(handle: Handle, address: number): bigint;
     readByte(handle: Handle, address: number): number;
     writeMemory(handle: Handle, address: number, value: unknown, type: string): void;
     getModules(th32ProcessID: number): Module[];
